@@ -1,34 +1,89 @@
+import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-public class Main {
+public class Main implements Serializable {
     //Написать программу, демонстрирующую
     //работу с классом: дано N треугольников и M прямоугольных треугольников, найти среднюю площадь и
     //минимальный периметр для N треугольников и прямоугольный треугольник с наибольшей гипотенузой.
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n, m;
+        int n = 0, m = 0;
         System.out.println("Enter number of triangles: ");
-        n = sc.nextInt();
+        getNumber(n);
         System.out.println("Enter number of right triangles: ");
-        m = sc.nextInt();
+        getNumber(m);
         Triangle_LinkList trList = new GenerateTriangles().generateTriangleLinkList(n);
-        Triangle_LinkList rtList = new GenerateTriangles().generateRightTriangleLinkList(m);
+        trList.rtList = new GenerateTriangles().generateRightTriangleLinkList(m).rtList;
+        System.out.println("Average area: " + averageArea(trList.trList));
+        System.out.println("Minimal perimeter: " + minimalPerimeter(trList.trList));
+        System.out.println("Maximal hypotenuse of right triangle: " + maximalHypotenuse(trList.rtList));
+        SaveLoad saveLoad = new SaveLoad();
+        saveLoad.trSave(trList);
+        saveLoad.rtSave(trList);
+        System.out.println("Saved to files");
+        trList.rtList.clear();
+        trList.trList.clear();
+        System.out.println("Cleared");
+        System.out.println("Loaded from files");
+        System.out.println("Waiting for loading...");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        trList = saveLoad.trLoad();
+        trList = saveLoad.rtLoad();
+        System.out.println("Average area: " + averageArea(trList.trList));
+        System.out.println("Minimal perimeter: " + minimalPerimeter(trList.trList));
+        System.out.println("Maximal hypotenuse of right triangle: " + maximalHypotenuse(trList.rtList));
+    }
+
+    //Написать метод, вычисляющий среднюю площадь треугольников в списке
+    static double averageArea(LinkedList<Triangle> trList) {
         double area = 0;
-        double perimeter = trList.trList.get(0).getPerimeter();
-        for (int i = 1; i < n; i++) {
-            area += trList.trList.get(i).getArea();
-            if (perimeter > trList.trList.get(i).getPerimeter()) {
-                perimeter = trList.trList.get(i).getPerimeter();
+        for (int i = 0; i < trList.size(); i++) {
+            area += trList.get(i).getArea();
+        }
+        return area / trList.size();
+    }
+
+    //Написать метод, вычисляющий минимальный периметр треугольников в списке
+    static double minimalPerimeter(LinkedList<Triangle> trList) {
+        double perimeter = trList.get(0).getPerimeter();
+        for (int i = 1; i < trList.size(); i++) {
+            if (perimeter > trList.get(i).getPerimeter()) {
+                perimeter = trList.get(i).getPerimeter();
             }
         }
-        System.out.println("Average area: " + area / n);
-        System.out.println("Minimal perimeter: " + perimeter);
-        double hypotenuse = rtList.rtList.get(0).getMaxSide();
-        for (int i = 1; i < m; i++) {
-            if (hypotenuse < rtList.rtList.get(i).getMaxSide()) {
-                hypotenuse = rtList.rtList.get(i).getMaxSide();
+        return perimeter;
+    }
+
+    //Написать метод, вычисляющий максимальную гипотенузу прямоугольного треугольника в списке
+    static double maximalHypotenuse(LinkedList<Right_triangle> trList) {
+        double hypotenuse = trList.get(0).getMaxSide();
+        for (int i = 1; i < trList.size(); i++) {
+            if (hypotenuse < trList.get(i).getMaxSide()) {
+                hypotenuse = trList.get(i).getMaxSide();
             }
         }
-        System.out.println("Maximal hypotenuse of right triangle: " + hypotenuse);
+        return hypotenuse;
+    }
+
+
+    //Метод, проверяющий введенное число на правильность ввода
+    static int getNumber (Integer number){
+        Scanner sc = new Scanner(System.in);
+        boolean isNumber = false;
+        do {
+            try {
+                String str = sc.nextLine();
+                number = Integer.parseInt(str);
+                isNumber = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Incorrect input");
+            }
+        }while (!isNumber);
+        return number;
     }
 }

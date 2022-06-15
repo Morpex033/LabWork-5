@@ -1,4 +1,6 @@
-public class Right_triangle extends Triangle {
+import java.io.Serializable;
+
+public class Right_triangle extends Triangle implements Serializable {
 
     public Right_triangle() {
     }
@@ -7,7 +9,8 @@ public class Right_triangle extends Triangle {
         super(x1, y1, x2, y2, x3, y3);
     }
 
-    public boolean checkRinghtAngle(){
+    //Проверка прямоугольного треугольника
+    public boolean checkRightAngle(){
         if(super.getAngleA() == 90 || super.getAngleB() == 90 || super.getAngleC() == 90){
             return true;
         } else{
@@ -23,6 +26,7 @@ public class Right_triangle extends Triangle {
 
     double MaxSide;
 
+    //Найти гипотенузу
     public double getMaxSide() {
         if (super.getAB() > super.getAC() && super.getAB() > super.getBC()) {
             MaxSide = super.getAB();

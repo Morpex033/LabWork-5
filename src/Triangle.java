@@ -1,4 +1,6 @@
-public class Triangle {
+import java.io.Serializable;
+
+public class Triangle implements Serializable {
 
     protected double[] pointA = new double[2];
 
@@ -68,7 +70,8 @@ public class Triangle {
 
     protected boolean IsRealTriangle;
 
-    public void IsReal(){
+    //Проверка на то, является ли треугольник реальным
+    public void IsReal() {
         if ((getAB() + getBC()) > getAC() && (getAB() + getAC()) > getBC() && (getBC() + getBC()) > getAB()) {
             this.IsRealTriangle = true;
         } else {
@@ -89,27 +92,30 @@ public class Triangle {
 
     protected double Perimeter;
 
-    public void setPerimeter(){
+    //Периметр треугольника
+    public void setPerimeter() {
         this.Perimeter = getAB() + getBC() + getAC();
     }
 
-    public double getPerimeter(){
+    public double getPerimeter() {
         return this.Perimeter;
     }
 
     protected double Area;
 
-    public void setArea(){
+    //Площадь треугольника
+    public void setArea() {
         double p = getPerimeter() / 2;
         this.Area = Math.sqrt(p * (p - getAB()) * (p - getBC()) * (p - getAC()));
     }
 
-    public double getArea(){
+    public double getArea() {
         return this.Area;
     }
 
     protected int angleA;
 
+    //Угол А
     public void setAngleA() {
         this.angleA = (int) Math.toDegrees((Math.pow(getAB(), 2) + Math.pow(getAC(), 2) - Math.pow(getBC(), 2)) / (2 * getAB() * getAC()));
     }
@@ -123,6 +129,7 @@ public class Triangle {
 
     protected int angleB;
 
+    //Угол В
     public void setAngleB() {
         this.angleB = (int) Math.toDegrees((Math.pow(getBC(), 2) + Math.pow(getAB(), 2) - Math.pow(getAC(), 2)) / (2 * getBC() * getAB()));
     }
@@ -136,6 +143,7 @@ public class Triangle {
 
     protected int angleC;
 
+    //Угол С
     public void setAngleC() {
         this.angleC = 180 - (getAngleA() + getAngleB());
     }
@@ -144,7 +152,9 @@ public class Triangle {
         return this.angleC;
     }
 
-    public Triangle(){}
+    public Triangle() {
+    }
+
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.SetPointA(x1, y1);
         this.SetPointB(x2, y2);
@@ -160,7 +170,8 @@ public class Triangle {
         this.setAngleC();
     }
 
-    public void printInfo(){
+    //Вывод информации о треугольнике
+    public void printInfo() {
         System.out.println("----------------------------------------------------");
         System.out.println("Point A: " + this.GetPointA()[0] + " " + this.GetPointA()[1]);
         System.out.println("Point B: " + this.GetPointB()[0] + " " + this.GetPointB()[1]);
