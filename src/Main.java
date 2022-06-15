@@ -10,9 +10,9 @@ public class Main implements Serializable {
         Scanner sc = new Scanner(System.in);
         int n = 0, m = 0;
         System.out.println("Enter number of triangles: ");
-        getNumber(n);
+        n = getNumber(n);
         System.out.println("Enter number of right triangles: ");
-        getNumber(m);
+        m = getNumber(m);
         Triangle_LinkList trList = new GenerateTriangles().generateTriangleLinkList(n);
         trList.rtList = new GenerateTriangles().generateRightTriangleLinkList(m).rtList;
         System.out.println("Average area: " + averageArea(trList.trList));
@@ -37,6 +37,8 @@ public class Main implements Serializable {
         System.out.println("Average area: " + averageArea(trList.trList));
         System.out.println("Minimal perimeter: " + minimalPerimeter(trList.trList));
         System.out.println("Maximal hypotenuse of right triangle: " + maximalHypotenuse(trList.rtList));
+        ExitSave exitSave = new ExitSave();
+        exitSave.save(trList);
     }
 
     //Написать метод, вычисляющий среднюю площадь треугольников в списке
@@ -72,7 +74,7 @@ public class Main implements Serializable {
 
 
     //Метод, проверяющий введенное число на правильность ввода
-    static int getNumber (Integer number){
+    static int getNumber(Integer number) {
         Scanner sc = new Scanner(System.in);
         boolean isNumber = false;
         do {
@@ -83,7 +85,7 @@ public class Main implements Serializable {
             } catch (NumberFormatException e) {
                 System.out.println("Incorrect input");
             }
-        }while (!isNumber);
+        } while (!isNumber);
         return number;
     }
 }

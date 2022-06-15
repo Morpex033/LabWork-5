@@ -2,9 +2,11 @@ import java.io.*;
 import java.util.LinkedList;
 
 public class SaveLoad implements Serializable {
-    private static File trFile = new File("src/Triangles_SaveLoad.txt");
-    private static File rtFile = new File("src/Right_Triangles_SaveLoad.txt");
-    private Triangle_LinkList tr = new Triangle_LinkList();
+    protected File trFile = new File("src/Save/Triangles_SaveLoad.txt");
+    protected File rtFile = new File("src/Save/Right_Triangles_SaveLoad.txt");
+    private Triangle_LinkList list = new Triangle_LinkList();
+
+    public SaveLoad(){}
 
     //Сохранить список треугольников в файл
     public boolean trSave(Triangle_LinkList list) {
@@ -43,14 +45,14 @@ public class SaveLoad implements Serializable {
         try {
             FileInputStream fileInputStream = new FileInputStream(trFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            tr.trList = (LinkedList<Triangle>) objectInputStream.readObject();
+            list.trList = (LinkedList<Triangle>) objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
-        return tr;
+        return list;
     }
 
     //Загрузить из файла список прямоугольных треугольников
@@ -58,13 +60,13 @@ public class SaveLoad implements Serializable {
         try {
             FileInputStream fileInputStream = new FileInputStream(rtFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            tr.rtList = (LinkedList<Right_triangle>) objectInputStream.readObject();
+            list.rtList = (LinkedList<Right_triangle>) objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
-        return tr;
+        return list;
     }
 }
